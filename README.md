@@ -8,8 +8,8 @@
 는 아이디어를 쉽게 분류할 수 있는 마인드맵을 만들 수 있는 웹사이트입니다.  
 주소를 공유하여 실시간으로 다른 유저들의 작업 상황을 확인하며 소통할 수 있어 아이디어 공유 및 협업이 가능하고, 작업의 생산성을 높일 수 있습니다.
 
-- [Frontend Repository](https://github.com/Team-AOA/air-mind)
-- [Backend Repository](https://github.com/Team-AOA/air-mind-server)
+- [Frontend Repository](https://github.com/h-alex2/air-mind)
+- [Backend Repository](https://github.com/h-alex2/air-mind-server)
 
 <br />
 
@@ -22,7 +22,7 @@
 - [Service Demo](https://github.com/h-alex2/air-mind/#service-demo)
 - [Challenges](https://github.com/h-alex2/air-mind/#challenges)
   - [마인드맵 노드 데이터 관리](https://github.com/h-alex2/air-mind/#마인드맵-노드-데이터-관리)
-    - [트리 자료 구조로 노드 데이터 구성하기](https://github.com/h-alex2/air-mind/#트리-자료구조로-노드-데이터-구성하기)
+    - [트리 자료 구조로 노드 데이터 구성하기](https://github.com/h-alex2/air-mind/#트리-자료-구조로-노드-데이터-구성하기)
     - [트리 자료 구조를 통해 서버 통신 최소화](https://github.com/h-alex2/air-mind/#트리-자료-구조를-통해-서버-통신-최소화)
     - [한 번에 전송받을 수 있는 노드 데이터의 수 제한하기](https://github.com/h-alex2/air-mind/#한-번에-전송받을-수-있는-노드-데이터의-수-제한하기)
   - [마인드맵 시각화](https://github.com/h-alex2/air-mind/#마인드맵-시각화)
@@ -33,11 +33,11 @@
   - [Next.js의 Hydration Error 해결](https://github.com/h-alex2/air-mind/#nextjs의-hydration-error-해결)
   - [Socket I.O를 이용한 실시간 협업 기능 구현](https://github.com/h-alex2/air-mind/#socket-io를-이용한-실시간-협업-기능-구현)
     - [데이터 공유 최적화하기](https://github.com/h-alex2/air-mind/#데이터-공유-최적화하기)
-    - [Socket I.O와 Recoil간의 Freeze 이슈](https://github.com/h-alex2/air-mind/#socket-io와-recoil간의-freeze-이슈)
+    - [Socket I.O와 Recoil간의 Freeze 이슈 해결하기](https://github.com/h-alex2/air-mind/#socket-io와-recoil간의-freeze-이슈-해결하기)
   - [Formdata를 활용한 이미지전송](https://github.com/h-alex2/air-mind/#formdata를-활용한-이미지전송)
     - [파일 드래그 기능으로 사용자 편의성 높이기](https://github.com/h-alex2/air-mind/#파일-드래그-기능으로-사용자-편의성-높이기)
   - [Git merge commit 전략 도입](https://github.com/h-alex2/air-mind/#git-merge-commit-전략-도입)
-- [Idea Brainstorming & Planning](https://github.com/h-alex2/air-mind/#idea-brainstorming-planning)
+- [Idea Brainstorming & Planning](https://github.com/h-alex2/air-mind/#idea-brainstorming--planning)
 - [Development](https://github.com/h-alex2/air-mind/#development)
 - [Tech/Framework used](https://github.com/h-alex2/air-mind/#techframework-used)
 - [Retrospective](https://github.com/h-alex2/air-mind/#retrospective)
@@ -143,7 +143,7 @@
 마인드맵은 무한히 많은 노드들로 확장될 수 있습니다. 하나의 마인드맵 데이터 안에 모든 노드 데이터가 들어가는 형식이라면, 확장 될수록 점점 무거워질 것이라 생각했습니다. 그 부분을 방지하기 위해서 노드와 마인드맵의 관계를 약화시키고 노드와 노드 간의 관계를 중심으로 데이터를 관리하고자 하였습니다.
 
 <div align="center">
-  <img src="https://github.com/Team-AOA/air-mind/assets/84281505/f772c7e4-4d5f-4554-922f-9d35a85e3d0c" alt="airmind-logo"  />
+  <img width=700 src="https://github.com/Team-AOA/air-mind/assets/84281505/f772c7e4-4d5f-4554-922f-9d35a85e3d0c" alt="airmind-logo"  />
 </div>
 
 마인드맵은 가장 최상위 노드의 정보만을 보유하고, 그 이후로는 부모 노드와 자식 노드가 서로의 정보를 보유하는 양방향 1:N 트리 구조로 설정하게 되었습니다.
@@ -168,7 +168,7 @@
 
 마인드맵의 노드가 많아질 수 있다는 상황을 가정하고 나니, 굉장히 많은 노드 데이터를 가져올 때 서버에 미칠 영향의 가능성을 생각하게 되었습니다. 그래서 저희는 모든 데이터를 가져오는 것 보다 노드 수를 50개로 제한하고 노드의 깊이 또한 5로 제한하는 방식으로 작업하게 되었습니다.
 
-깊이를 제한해야 하기 때문에 한 레벨씩 탐색할 수 있는 BFS 탐색 방법을 선택하였습니다. 반복문 내의 배열 메서드 사용으로 인해 On^2이라는 시간복잡도가 부담이었지만, 나머지 탐색을 위해 `Promise.all`을 사용해 병렬적으로 처리하면서 고민했던 부분을 조금이나마 해소하려 노력하였습니다.
+깊이를 제한해야 하기 때문에 한 레벨씩 탐색할 수 있는 BFS 탐색 방법을 선택하였습니다. 반복문 내의 배열 메서드 사용으로 인해 $On^2$이라는 시간복잡도가 부담이었지만, 나머지 탐색을 위해 `Promise.all`을 사용해 병렬적으로 처리하면서 고민했던 부분을 조금이나마 해소하려 노력하였습니다.
 
 데이터가 가져와 지지 않은 노드의 경우 위 사진의 `+` 버튼을 클릭하여 데이터를 가져올 수 있도록 작업했습니다.
 
@@ -280,7 +280,23 @@ diff라는 루트 노드와 노드와의 상대 거리를 구한 후 제곱 후,
 
 ## Next.js의 Hydration Error 해결
 
-Next.js를 적용하면서 Hydration Error가 많이 발생하게 되었습니다. 마인드맵 데이터를 가져오는 컴포넌트에서 가장 많은 에러가 발생하게 되었는데, 확인해보니 마인드맵 구현에 필요한 D3 라이브러리가 원인이었습니다. ssr시점에는 라이브러리가 로드되지 않아 React 트리가 DOM의 동기화 문제로 발생했던 것이 문제였습니다. 이를 해결하기 위해 ssr을 사용하는 컴포넌트와 csr을 사용하는 컴포넌트를 분리하게 되었습니다.
+Next.js를 적용하면서 Hydration Error가 많이 발생하게 되었습니다.
+
+> Hydration Error는 React의 Hydration 기능으로 인해 App을 렌더링하는 동안 미리 렌더링된 SSR 트리와 첫 번째 렌더링 중에 렌더링 된 React 트리 간의 차이로 인해 발생합니다.
+
+특히 마인드맵 데이터를 가져오는 컴포넌트에서 가장 많은 에러가 발생하게 되었는데, 확인해보니 마인드맵 구현에 필요한 D3 라이브러리가 원인이었습니다. SSR 시점에는 라이브러리가 로드되지 않아 Hydration이 불일치하여 생긴 문제였습니다. 저희는 이를 해결하기 위해서 SSR을 적용할 컴포넌트와 CSR을 적용할 컴포넌트를 분리하게 되었습니다. 분리하는 방식으로는 2가지가 있었는데, 다음과 같습니다.
+
+1. `useEffect` 사용
+   `useEffect`는 브라우저 그리고 Hydration 중에 실행되기 때문에 Hydration Error를 해결할 수 있게 됩니다.
+
+```js
+useEffect(() => {
+  // D3 라이브러리 로직 실행..
+}, []);
+```
+
+2. dynamic import 사용
+   동적 import를 사용해 SSR 속성을 끄고, 컴포넌트를 지연 로드하여 Hydration Error를 해결하는 방법입니다. 아래와 같이 사용할 수 있습니다.
 
 ```js
 const NodeCanvas = dynamic(() => import('../nodecanvas'), {
@@ -288,7 +304,7 @@ const NodeCanvas = dynamic(() => import('../nodecanvas'), {
 });
 ```
 
-ssr을 사용하지 않는 컴포넌트는 동적 import를 이용해 ssr을 false로 설정하여 csr만 사용하는 설정을 통해 csr 설정을 적용했습니다.
+저희는 이 둘 중에 dynamic import 방식을 사용해 CSR을 적용했습니다. 이유로는 SSR 속성을 false로 설정함으로써 SSR을 비활성화하는 것을 좀 더 명시적이게 보이는 방법이라고 생각했기 때문입니다.
 
 <br />
 
@@ -326,7 +342,7 @@ Recoil은 상태를 관리하며 상태의 불변성을 보장하기 위해 내�
 - 클라이언트 단에서 모두 처리하는 방법
 - 서버로 데이터를 보낸 후 처리하는 방법
 
-첫 번째 방법인 base64로 인코딩하여 파일 자체를 DB에 저장하는 방법으로는 인코딩 시 용량이 33프로 늘어나게 되기 때문에, 비효율적인 방법이 될 것이라 생각하여 다른 방법을 찾게 되었습니다.
+첫 번째 방법인 base64로 인코딩하여 파일 자체를 DB에 저장하는 방법으로는 인코딩 시 용량이 33% 늘어나게 되기 때문에, 비효율적인 방법이 될 것이라 생각하여 다른 방법을 찾게 되었습니다.
 
 다음으로는 클라이언트에서 `aws-sdk`를 사용해 바로 S3 버킷에 저장하는 방법을 생각해봤지만, 클라이언트에서 aws의 key를 저장하게 된다면 bundle에 노출될 수도 있는 등 보안 적으로 좋지 않을 수 있다고 생각하게 되었습니다.
 
@@ -428,33 +444,33 @@ Drag and Drop 기능으로는 `onDrop` 이벤트만 사용해야 하므로 다�
     </tr>
     <tr align="center">
       <td>NextJS</td>
-      <td><img src="https://img.shields.io/badge/npm-12.3.1-blue" alr="nextjs-version" /></td>
+      <td>v12.3.1</td>
       <td>Express</td>
-      <td><img src="https://img.shields.io/badge/npm-4.16.1-blue" alr="nextjs-version" /></td>
+      <td>v4.16.1</td>
     </tr>
     <tr align="center">
       <td>Recoil</td>
-      <td><img src="https://img.shields.io/badge/npm-0.7.6-blue" alr="nextjs-version" /></td>
+      <td>v0.7.6</td>
       <td>Mongoose</td>
-      <td><img src="https://img.shields.io/badge/npm-6.6.5-blue" alr="nextjs-version" /></td>
+      <td>v6.6.5</td>
     </tr>
     <tr align="center">
       <td>Styled Compontents</td>
-      <td><img src="https://img.shields.io/badge/npm-5.3.6-blue" alr="nextjs-version" /></td>
+      <td>v5.3.6</td>
       <td>Mongoose-autopopulate</td>
-      <td><img src="https://img.shields.io/badge/npm-0.16.1-blue" alr="nextjs-version" /></td>
+      <td>v0.16.1</td>
     </tr>
     <tr align="center">
       <td>Socket.io-client</td>
-      <td><img src="https://img.shields.io/badge/npm-4.5.3-blue" alr="nextjs-version" /></td>
+      <td>v4.5.3</td>
       <td>Socket.io</td>
-      <td><img src="https://img.shields.io/badge/npm-4.5.3-blue" alr="nextjs-version" /></td>
+      <td>v4.5.3</td>
     </tr>
     <tr align="center">
       <td>Firebase Authentication</td>
-      <td><img src="https://img.shields.io/badge/npm-9.12.1-blue" alr="nextjs-version" /></td>
+      <td>v9.12.1</td>
       <td>multer</td>
-      <td><img src="https://img.shields.io/badge/npm-1.4.5-blue" alr="nextjs-version" /></td>
+      <td>v1.4.5</td>
     </tr>
   </table>
 
